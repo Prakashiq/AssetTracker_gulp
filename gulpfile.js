@@ -3,13 +3,26 @@ var eslint = require('gulp-eslint');
 var chalk = require('chalk');
 var nodemon = require('gulp-nodemon');
 var babel = require('gulp-babel');
-var jsFiles =  ['*.js', 'src/**/*.js'];
+var concat = require('gulp-concat');  
+var rename = require('gulp-rename');  
+var uglify = require('gulp-uglify');  
 
+var jsFiles =  ['*.js', 'src/**/*.js'];
+var jsDest = 'dist';
+
+gulp.task('scripts', function() {  
+    return gulp.src(jsFiles)
+        .pipe(concat('scripts.js'))
+        .pipe(gulp.dest(jsDest))
+        .pipe(rename('scripts.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest(jsDest));
+});
 
 gulp.task('default', function () {
     return gulp.src('src/**/*.js')
         .pipe(babel())
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest(jsDest));
 });
 
 gulp.task('lint', function() {
@@ -40,7 +53,7 @@ gulp.task('inject',function(){
 	return gulp.src('src/views/*.ejs')
 	.pipe(wiredep(options))
 	.pipe(inject(injectSrc, injectOptions))
-	.pipe(gulp.dest('dist/views'));
+	.pipe(gulp.dest(jsDest+'/views'));
 });
 
 
