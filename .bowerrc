@@ -1,0 +1,6 @@
+{
+    "directory": "public/lib",
+    "proxy":"http://240110:Feb-14-2017@proxy.cognizant.com:6050/",
+    "https-proxy":"http://240110:Feb-14-2017@proxy.cognizant.com:6050/",
+    "strict-ssl":false
+}
