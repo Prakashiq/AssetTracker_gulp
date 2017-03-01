@@ -2,8 +2,15 @@ var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var chalk = require('chalk');
 var nodemon = require('gulp-nodemon');
-
+var babel = require('gulp-babel');
 var jsFiles =  ['*.js', 'src/**/*.js'];
+
+
+gulp.task('default', function () {
+    return gulp.src('src/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('dist'));
+});
 
 gulp.task('lint', function() {
     return gulp.src(jsFiles)
@@ -30,10 +37,10 @@ gulp.task('inject',function(){
 		ignorePath: '../../public'
 	};
 
-	return gulp.src(['./src/views/*.html','./src/views/*.ejs'])
+	return gulp.src('src/views/*.ejs')
 	.pipe(wiredep(options))
 	.pipe(inject(injectSrc, injectOptions))
-	.pipe(gulp.dest('./src/views'));
+	.pipe(gulp.dest('dist/views'));
 });
 
 
