@@ -6,23 +6,15 @@ var babel = require('gulp-babel');
 var concat = require('gulp-concat');  
 var rename = require('gulp-rename');  
 var uglify = require('gulp-uglify');  
+var clean = require('gulp-clean');
+var sourcemaps = require('gulp-sourcemaps');
 
 var jsFiles =  ['*.js', 'src/**/*.js'];
 var jsDest = 'dist';
 
-gulp.task('scripts', function() {  
-    return gulp.src(jsFiles)
-        .pipe(concat('scripts.js'))
-        .pipe(gulp.dest(jsDest))
-        .pipe(rename('scripts.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(jsDest));
-});
-
-gulp.task('default', function () {
-    return gulp.src('src/**/*.js')
-        .pipe(babel())
-        .pipe(gulp.dest(jsDest));
+gulp.task('clean-dist', function () {
+  return gulp.src(['dist/**/*.js','dist/**/*.ejs'], {read: false})
+    .pipe(clean());
 });
 
 gulp.task('lint', function() {
@@ -31,7 +23,6 @@ gulp.task('lint', function() {
 	.pipe(eslint.format())
 	.pipe(eslint.failOnError());
 });
-
 
 gulp.task('inject',function(){
 	var wiredep = require('wiredep').stream;
@@ -53,11 +44,26 @@ gulp.task('inject',function(){
 	return gulp.src('src/views/*.ejs')
 	.pipe(wiredep(options))
 	.pipe(inject(injectSrc, injectOptions))
-	.pipe(gulp.dest(jsDest+'/views'));
+	.pipe(gulp.dest('src/views'));
 });
 
+gulp.task('transform', function () {
+    return gulp.src('src/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest(jsDest));
+});
 
-gulp.task('serve', ['lint','inject'], function(){
+gulp.task('min', function() {  
+    return gulp.src(jsDest+'/**/*.js')
+        .pipe(concat('scripts.js'))
+        .pipe(gulp.dest(jsDest))
+		.pipe(uglify())
+        .pipe(rename('scripts.min.js'))
+		.pipe(sourcemaps.write('maps'))
+        .pipe(gulp.dest(jsDest));
+});
+
+gulp.task('serve', ['clean-dist','lint','inject', 'transform'], function(){
 	var options = {
 		script: './bin/www',
 		delayTime: 1,
