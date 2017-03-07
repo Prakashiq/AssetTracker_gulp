@@ -23,7 +23,7 @@ var assetController = function(Asset)
             else
             {
                 var returnAssets=[];
-                assets.forEach(function(element, index, array){
+                assets.forEach(function(element, index, array){ //eslint-disable-line no-unused-vars
                     var newAsset = element.toJSON();
                     newAsset.links={};
                     newAsset.links.self = 'http://' + req.headers.host + '/api/assets/' + newAsset._id;
