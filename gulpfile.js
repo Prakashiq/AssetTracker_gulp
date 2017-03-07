@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var chalk = require('chalk');
 var nodemon = require('gulp-nodemon');
-var babel = require('gulp-babel');
+//var babel = require('gulp-babel');
 var concat = require('gulp-concat');  
 var rename = require('gulp-rename');  
 var uglify = require('gulp-uglify');  
@@ -47,11 +47,11 @@ gulp.task('inject',function(){
 	.pipe(gulp.dest('src/views'));
 });
 
-gulp.task('transform', function () {
-    return gulp.src('src/**/*.js')
-        .pipe(babel())
-        .pipe(gulp.dest(jsDest));
-});
+// gulp.task('transform', function () {
+//      return gulp.src('src/**/*.js')
+//          .pipe(babel())
+//          .pipe(gulp.dest(jsDest));
+// });
 
 gulp.task('min', function() {  
     return gulp.src(jsDest+'/**/*.js')
@@ -63,7 +63,7 @@ gulp.task('min', function() {
         .pipe(gulp.dest(jsDest));
 });
 
-gulp.task('serve', ['clean-dist','lint','inject', 'transform'], function(){
+gulp.task('serve', ['clean-dist','lint','inject'], function(){
 	var options = {
 		script: './bin/www',
 		delayTime: 1,

@@ -4,12 +4,11 @@ var favicon = require('serve-favicon');  //eslint-disable-line no-unused-vars
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mogoose = require('mongoose');
 
-var index = require('./src/routes/index');
-var users = require('./src/routes/users');
-var dashboard = require('./src/routes/dashboard');
+mogoose.connect('mongodb://localhost:30000/AssetTracker');
 
-// var scripts = require('./dist/scripts.min.js');
+var Asset = require('./src/models/assetModel');
 
 var app = express();
 
@@ -25,13 +24,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
-app.use('/dashboard', dashboard);
+var assetRouter = require('./src/routes/assetRouter')(Asset);
 
-// app.use('/', scripts);
-// app.use('/users', scripts);
-// app.use('/dashboard', scripts);
+app.use('/api/Assets', assetRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,9 +43,8 @@ app.use(function(err, req, res, next) { //eslint-disable-line no-unused-vars
 
   // render the error page
   res.status(err.status || 500);
-  debugger;   
-  res.render('error');
+  console.log(err);
+  res.render('error',err);
 });
-
 
 module.exports = app;
