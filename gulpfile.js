@@ -8,6 +8,7 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');  
 var clean = require('gulp-clean');
 var sourcemaps = require('gulp-sourcemaps');
+var gulpmocha = require('gulp-mocha');
 
 var jsFiles =  ['*.js', 'src/**/*.js'];
 var jsDest = 'dist';
@@ -52,6 +53,11 @@ gulp.task('inject',function(){
 //          .pipe(babel())
 //          .pipe(gulp.dest(jsDest));
 // });
+
+gulp.task('test',function(){
+	gulp.src('test/*.js', {read: false})
+	.pipe(gulpmocha({reporter:'list'}));
+});
 
 gulp.task('min', function() {  
     return gulp.src(jsDest+'/**/*.js')
