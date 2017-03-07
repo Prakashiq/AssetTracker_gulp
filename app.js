@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mogoose = require('mongoose');
+var validator = require('express-validator');
 
 mogoose.connect('mongodb://localhost:30000/AssetTracker');
 
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(validator());
 
 var assetRouter = require('./src/routes/assetRouter')(Asset);
 

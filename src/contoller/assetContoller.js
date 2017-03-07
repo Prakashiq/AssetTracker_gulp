@@ -1,19 +1,25 @@
 
+
 var assetController = function(Asset)
 {
     var post = function(req,res){
-        var asset = new Asset(req.body);
+        
+        var assetValidate= require('../validator/assetValidator');
+       
+        //assetValidate.reqValidator(err,req,res);
+        assetValidate.reqValidator(req,  function(err,validateres) { //eslint-disable-line no-unused-vars
 
-        if(!req.body.AssetId) {
-            res.status(400);
-            res.send('AssetId is require');
-        }
-        else{
-            asset.save();
-            res.status(201);
-            res.send(asset);
-        }
-    };
+            if (validateres) {
+                res.status(400).send(validateres);
+            } else {
+               var asset = new Asset(req.body);
+                asset.save();
+                res.status(201).send();
+            }
+        });
+
+        };
+       
 
     var get = function(req,res){
         var query = req.query;

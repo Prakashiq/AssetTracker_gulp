@@ -14,7 +14,7 @@ var assetIdController = function(Asset)
 
     console.log(req.body);
     
-        req.asset.AssetId = req.body.AssetId;
+        req.asset._id = req.body._id;
         req.asset.AssetType= req.body.AssetType;
         req.asset.Subtitle= req.body.Subtitle;
         req.asset.SerailNum= req.body.SerailNum;
@@ -58,7 +58,7 @@ var assetIdController = function(Asset)
    }
 
    var findIdMiddleware = function(req,res,next){
-    Asset.findById(req.params.assetId, function(err,asset) {
+    Asset.findById(req.params._id, function(err,asset) {
       if (err) 
         res.status(500).send(err);
       else if (asset)
