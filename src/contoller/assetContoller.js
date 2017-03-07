@@ -3,17 +3,34 @@ var assetController = function(Asset)
 {
     var post = function(req,res){
         var asset = new Asset(req.body);
-        asset.save();
-        res.send(asset);
+
+        if(!req.body.AssetId) {
+            res.status(400);
+            res.send('AssetId is require');
+        }
+        else{
+            asset.save();
+            res.status(201);
+            res.send(asset);
+        }
     };
 
     var get = function(req,res){
         var query = req.query;
         Asset.find(query, function(err,assets) {
-        if (err) 
-            res.status(500).send(err);
-        else
-            res.json(assets);
+            if (err) 
+                res.status(500).send(err);
+            else
+            {
+                var returnAssets=[];
+                assets.forEach(function(element, index, array){
+                    var newAsset = element.toJSON();
+                    newAsset.links={};
+                    newAsset.links.self = 'http://' + req.headers.host + '/api/assets/' + newAsset._id;
+                    returnAssets.push(newAsset);
+                });
+                res.json(returnAssets);
+            }
         })
    };
 

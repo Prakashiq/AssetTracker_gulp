@@ -2,7 +2,11 @@
 var assetIdController = function(Asset)
 {
    var get = function(req,res){
-        res.json(req.asset);
+        var returnAsset = req.asset.toJSON();
+        returnAsset.links={};
+        var newlink = 'http://' + req.headers.host + '/api/assets/?VendorNum=' + returnAsset.VendorNum;
+        returnAsset.links.findByThisVendorNum = newlink.replace(' ','%20');
+        res.json(returnAsset);
 }
 
   var put = function(req,res){
