@@ -25,11 +25,11 @@ var assetIdController = function(Asset)
         req.asset.AssetStatus= req.body.AssetStatus;
         
         req.asset.save(function(err){
-          if (err) 
-            res.status(500).send(err);
+          if(err.errors || err.errmsg )
+            res.status(400).send(err.errors || err.errmsg);
           else
             res.json(req.asset);
-        });  
+      });
   }
 
   var patch= function(req,res){
@@ -41,10 +41,10 @@ var assetIdController = function(Asset)
         req.asset[p] = req.body[p];
       }
       req.asset.save(function(err){
-        if (err) 
-         res.status(500).send(err);
+        if(err.errors || err.errmsg )
+          res.status(400).send(err.errors || err.errmsg);
         else
-         res.json(req.asset);
+          res.json(req.asset);
       });
    }
 
