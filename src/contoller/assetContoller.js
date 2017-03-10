@@ -13,11 +13,16 @@ var assetController = function(Asset)
                 res.status(400).send(validateres);
             } else {
                var asset = new Asset(req.body);
-                asset.save(function(err){
-                    if(err.errors || err.errmsg )
-                        res.status(400).send(err.errors || err.errmsg);
-                    else
+                asset.save(function(cb){
+                    if  (cb)
+                    {
+                        console.log(cb);
+                        if(cb.errors || cb.errmsg )
+                            res.status(400).send(cb.errors || cb.errmsg);
+                    }
+                    else{
                         res.status(201).send('Asset Saved');
+                    }
                 });
                 
             }

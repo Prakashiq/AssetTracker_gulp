@@ -24,11 +24,13 @@ var assetIdController = function(Asset)
         req.asset.IPAddress= req.body.IPAddress;
         req.asset.AssetStatus= req.body.AssetStatus;
         
-        req.asset.save(function(err){
-          if(err.errors || err.errmsg )
-            res.status(400).send(err.errors || err.errmsg);
-          else
-            res.json(req.asset);
+        req.asset.save(function(cb){
+          if (cb)
+          {
+            if(cb.errors || cb.errmsg )
+              res.status(400).send(err.errors || err.errmsg);
+          } else
+          res.json(req.asset);
       });
   }
 
