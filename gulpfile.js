@@ -69,8 +69,9 @@ gulp.task('min', function() {
         .pipe(gulp.dest(jsDest));
 });
 
-gulp.task('serve', ['clean-dist','lint','inject'], function(){
+gulp.task('serve', ['clean-dist','lint','inject','test'], function(){
 	var options = {
+		tasks:['test'],
 		script: './bin/www',
 		delayTime: 1,
 		env: {

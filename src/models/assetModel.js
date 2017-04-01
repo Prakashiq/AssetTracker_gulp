@@ -12,17 +12,16 @@ var requiredStringValidator = [
 
 var assetModel = new Schema({
 _id: {type:String, required:true, validate: requiredStringValidator },
-AssetType: {type:String, required:true, validate: requiredStringValidator},
-Subtitle: {type:String, required:true, validate: requiredStringValidator},
-SerailNum: {type:String, required:true, validate: requiredStringValidator},
-VendorNum: {type:String, required:true, validate: requiredStringValidator},
-MfgrMdlNum: {type:String, required:true, validate: requiredStringValidator}, 
-AssetStatus: {type:String, default:'InUse', enum:assetStatus},
-Location: {type:String,required:true, validate: requiredStringValidator},
-IPAddress: {type:String},
-MACAddress: {type:String},
+assetType: {type:String, required:true, validate: requiredStringValidator},
+subtitle: {type:String, required:true, validate: requiredStringValidator},
+serailNum: {type:String, required:true, validate: requiredStringValidator},
+vendorNum: {type:String, required:true, validate: requiredStringValidator},
+mfgrMdlNum: {type:String, required:true, validate: requiredStringValidator}, 
+assetStatus: {type:String, default:'InUse', enum:assetStatus},
+location: {type:String,required:true, validate: requiredStringValidator},
+iPAddress: {type:String},
+mACAddress: {type:String},
 });
 
  
-//assetModel.path('_id').required(true,'AssetId is require');
 module.exports = mongoose.model('asset',assetModel);

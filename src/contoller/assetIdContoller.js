@@ -28,7 +28,7 @@ var assetIdController = function(Asset)
           if (cb)
           {
             if(cb.errors || cb.errmsg )
-              res.status(400).send(err.errors || err.errmsg);
+              res.status(400).send(cb.errors || cb.errmsg);
           } else
           res.json(req.asset);
       });
