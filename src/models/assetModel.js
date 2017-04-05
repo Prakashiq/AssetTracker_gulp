@@ -20,7 +20,7 @@ mfgrMdlNum: {type:String, required:true, validate: requiredStringValidator},
 assetStatus: {type:String, default:'InUse', enum:assetStatus},
 location: {type:String,required:true, validate: requiredStringValidator},
 iPAddress: {type:String},
-mACAddress: {type:String},
+mACAddress: {type:String}
 });
 
  

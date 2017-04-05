@@ -1,22 +1,5 @@
 var request = require('supertest');
 
-describe('Server Get Validation:', function(){
-    beforeEach(function(){
-        server = require('../app');
-    });
-
-    it('Is Server Alive',function(done){
-        request(server)
-        .get('/api/Assets')
-        .expect(200,done);
-    });
-    it('Page Not found',function(done){
-        request(server)
-        .get('/')
-        .expect(404,done);
-    });
-});
-
 describe('Server POST Validation:', function(){
     beforeEach(function(){
         server = require('../app');
@@ -210,19 +193,32 @@ describe('Server POST Validation:', function(){
 });
 
 
-describe('Asset DB validation:', function(){
+describe('Asset Id validation:', function(){
 
     beforeEach(function(){
         server = require('../app');
         
     });
 
-    it('Save Asset',function(){
+    it('Find a asset which is available', function(done){
+          request(server)
+        .get('/api/Assets/0002')
+        .expect(200, done); 
+    });
+
+    it('Find a asset which not available', function(done){
+          request(server)
+        .get('/api/Assets/9999')
+        .expect(404,'No Asset found', done); 
+    });
+
+    it.skip('Save Asset',function(){
 
     });
 
-    it('Delete asset', function(){
-
+    it.skip('Delete asset', function(done){
+          request(server)
+        .delete('/api/Assets/0001')
+        .expect(204,'Asset Removed', done); 
     });
-
 });

@@ -12,6 +12,7 @@ var assetController = function(Asset)
             if (validateres) {
                 res.status(400).send(validateres);
             } else {
+                
                var asset = new Asset(req.body);
                 asset.save(function(cb){
                     if  (cb)

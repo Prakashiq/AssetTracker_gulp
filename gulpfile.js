@@ -9,7 +9,7 @@ var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 var sourcemaps = require('gulp-sourcemaps');
 var gulpmocha = require('gulp-mocha');
-
+var gutil = require('gulp-util');
 var jsFiles =  ['*.js', 'src/**/*.js'];
 var jsDest = 'dist';
 
@@ -55,8 +55,9 @@ gulp.task('inject',function(){
 // });
 
 gulp.task('test',function(){
-	gulp.src('test/*.js', {read: false})
-	.pipe(gulpmocha({reporter:'list'}));
+	gulp.src('/src/*test*.js', {read: false})
+	.pipe(gulpmocha({reporter:'list'}))
+	.on('error',gutil.log);
 });
 
 gulp.task('min', function() {  
@@ -69,6 +70,7 @@ gulp.task('min', function() {
         .pipe(gulp.dest(jsDest));
 });
 
+gulp.task('default',['serve']);
 gulp.task('serve', ['clean-dist','lint','inject','test'], function(){
 	var options = {
 		tasks:['test'],
